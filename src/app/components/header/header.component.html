@@ -12,7 +12,7 @@
         </app-link>
 
         <app-link *ngIf="authService.currentUser" href="/me">
-            {{ authService.currentUser.displayName != "" ? authService.currentUser.displayName :
+            {{ authService.currentUser.displayName ? authService.currentUser.displayName :
             authService.currentUser.email }}
         </app-link>
 

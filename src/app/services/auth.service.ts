@@ -5,8 +5,17 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   updateProfile,
+  signInWithEmailAndPassword,
 } from '@angular/fire/auth';
+import { Firestore } from '@angular/fire/firestore';
 import { signInWithPopup, User } from '@firebase/auth';
+import {
+  addDoc,
+  collection,
+  CollectionReference,
+  DocumentData,
+} from '@firebase/firestore';
+import { IUser } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,11 +24,21 @@ export class AuthService {
   googleProvider = new GoogleAuthProvider();
 
   currentUser: User | null = null;
+  userCollectionRef: CollectionReference<IUser>;
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private store: Firestore) {
     this.auth.onAuthStateChanged((user) => {
       this.currentUser = user;
     });
+
+    this.userCollectionRef = collection(
+      this.store,
+      'users'
+    ) as CollectionReference<IUser>;
+  }
+
+  async login(password: string, email: string) {
+    await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   loginWithGithub() {
@@ -31,15 +50,19 @@ export class AuthService {
   }
 
   async register(email: string, password: string, username: string) {
-    const result = await createUserWithEmailAndPassword(
+    const { user } = await createUserWithEmailAndPassword(
       this.auth,
       email,
       password
     );
-    const user = this.auth.currentUser!;
     if (username !== '') {
       await updateProfile(user, { displayName: username });
     }
+    await addDoc<IUser>(this.userCollectionRef, {
+      uid: user.uid,
+      email: user.email!,
+      displayName: user.displayName === '' ? user.email! : user.displayName!,
+    });
     return user;
   }
 

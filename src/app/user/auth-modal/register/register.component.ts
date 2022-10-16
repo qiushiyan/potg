@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
 
   async onSubmit() {
     this.loading = true;
+    this.error = null;
     const { email, password, username } = this.registerForm.value;
     try {
       await this.authService.register(email, password, username);
@@ -60,7 +61,7 @@ export class RegisterComponent implements OnInit {
         if (error.code === 'auth/email-already-in-use') {
           this.error = `Email ${this.email.value} is already registered`;
         } else {
-          this.error = error.message;
+          this.error = 'An internal error occured. Please try again later.';
         }
       } else {
         this.error = error.message;

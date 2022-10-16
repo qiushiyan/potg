@@ -8,10 +8,11 @@
         <!-- username -->
         <app-input [field]="username" name="Username" [required]="false"></app-input>
 
-        <button class="btn bg-indigo-400 hover:bg-indigo-500 text-white w-full my-5" [disabled]="isFormInvalid()"
-            [class.disabled]="isFormInvalid()" [class.loading]="loading">{{ loading ? "Submitting ..." :
+        <button class="btn btn-accent w-full" [disabled]="isFormInvalid()" [class.disabled]="isFormInvalid()"
+            [class.loading]="loading">{{ loading ? "Submitting ..." :
             "Submit"}}</button>
 
+        <!-- firebase create user error -->
         <app-alert *ngIf="error">
             {{ error }}
         </app-alert>
