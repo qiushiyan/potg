@@ -11,5 +11,9 @@
         <button class="btn bg-indigo-400 hover:bg-indigo-500 text-white w-full my-5" [disabled]="isFormInvalid()"
             [class.disabled]="isFormInvalid()" [class.loading]="loading">{{ loading ? "Submitting ..." :
             "Submit"}}</button>
+
+        <app-alert *ngIf="error">
+            {{ error }}
+        </app-alert>
     </div>
 </form>

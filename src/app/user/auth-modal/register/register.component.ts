@@ -8,11 +8,14 @@ import {
 } from '@angular/forms';
 import { AppConfig } from 'src/app/app.config';
 import { InputComponent } from 'src/app/components/input/input.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
+import { FirebaseError } from '@angular/fire/app';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputComponent],
+  imports: [CommonModule, ReactiveFormsModule, InputComponent, AlertComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
@@ -20,6 +23,8 @@ export class RegisterComponent implements OnInit {
   passwordMinLength = AppConfig.validator.password.minLength;
   usernameMinLength = AppConfig.validator.username.minLength;
   loading: boolean = false;
+  // firebase registeration error
+  error: string | null = null;
 
   email: FormControl = new FormControl('', [
     Validators.required,
@@ -39,14 +44,30 @@ export class RegisterComponent implements OnInit {
     username: this.username,
   });
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   isFormInvalid() {
     return !this.registerForm.valid;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.loading = true;
+    const { email, password, username } = this.registerForm.value;
+    try {
+      await this.authService.register(email, password, username);
+    } catch (error: any) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/email-already-in-use') {
+          this.error = `Email ${this.email.value} is already registered`;
+        } else {
+          this.error = error.message;
+        }
+      } else {
+        this.error = error.message;
+      }
+    }
+
+    this.loading = false;
   }
 
   ngOnInit(): void {}

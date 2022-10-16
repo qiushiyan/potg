@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { AppConfig } from 'src/app/app.config';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,16 @@ export class LoginComponent implements OnInit {
     password: '',
   };
   loading: boolean = false;
+
+  constructor(private authService: AuthService) {}
+
+  loginWithGithub() {
+    this.authService.loginWithGithub();
+  }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle();
+  }
 
   onSubmit() {
     this.loading = true;
@@ -39,8 +51,6 @@ export class LoginComponent implements OnInit {
   wrongPasswordError() {
     return 'Password is not correct';
   }
-
-  constructor() {}
 
   ngOnInit(): void {}
 }

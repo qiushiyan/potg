@@ -4,6 +4,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { AuthModalComponent } from 'src/app/user/auth-modal/auth-modal.component';
 import { AppConfig } from 'src/app/app.config';
 import { LinkComponent } from '../link/link.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,10 @@ import { LinkComponent } from '../link/link.component';
 export class HeaderComponent implements OnInit {
   modalId: string = AppConfig.modalIds.USER_AUTH_MODAL;
 
-  constructor(private modalService: ModalService) {}
+  constructor(
+    public authService: AuthService,
+    private modalService: ModalService
+  ) {}
 
   toggleAuthModal() {
     this.modalService.toggleModal(this.modalId);

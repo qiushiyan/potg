@@ -1,0 +1,6 @@
+<img [src]="this.authService.currentUser?.photoURL" alt="">
+<p>
+    {{ this.authService.currentUser | json}}
+</p>
+
+<button class="btn btn-outline btn-accent" (click)="logout()">Logout</button>

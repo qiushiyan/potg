@@ -1,4 +1,12 @@
 <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+    <!-- social providers -->
+    <div class="my-5 flex justify-around">
+        <button class="btn btn-outline btn-accent" (click)="loginWithGithub()">Login with github</button>
+        <button class="btn btn-outline btn-accent" (click)="loginWithGoogle()">Login with Google</button>
+    </div>
+
+    <div class="divider">Or login via email</div>
     <!-- email -->
     <div class="mb-3">
         <label class="label">Email</label>
