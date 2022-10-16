@@ -1,0 +1,15 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-control w-full">
+        <!-- email -->
+        <app-input [field]="email" name="Email" [required]="true" type="email"></app-input>
+        <!-- password -->
+        <app-input [field]="password" name="Password" [required]="true" [minLength]="passwordMinLength" type="password">
+        </app-input>
+        <!-- username -->
+        <app-input [field]="username" name="Username" [required]="false"></app-input>
+
+        <button class="btn bg-indigo-400 hover:bg-indigo-500 text-white w-full my-5" [disabled]="isFormInvalid()"
+            [class.disabled]="isFormInvalid()" [class.loading]="loading">{{ loading ? "Submitting ..." :
+            "Submit"}}</button>
+    </div>
+</form>

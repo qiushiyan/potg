@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,13 +6,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './tab.component.html',
-  styleUrls: ['./tab.component.scss']
+  styleUrls: ['./tab.component.scss'],
 })
 export class TabComponent implements OnInit {
+  @Input() title!: string;
+  @Input() active: boolean = false;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
