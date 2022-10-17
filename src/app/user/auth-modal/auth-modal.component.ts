@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from 'src/app/components/modal/modal.component';
-import { ModalService } from 'src/app/services/modal.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
-import { TabsContainerComponent } from 'src/app/components/tabs-container/tabs-container.component';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { TabComponent } from 'src/app/components/tab/tab.component';
+import { TabsContainerComponent } from 'src/app/components/tabs-container/tabs-container.component';
+import { ModalService } from 'src/app/services/modal.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 

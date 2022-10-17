@@ -9,8 +9,11 @@
         <app-alert *ngIf="isMinLength()">
             {{ isMinLengthError() }}
         </app-alert>
-        <app-alert *ngIf="isEmail()">
-            {{ isEmailError() }}
+        <app-alert *ngIf="isEmailInvalid()">
+            {{ isEmailInvalidError() }}
+        </app-alert>
+        <app-alert *ngIf="isEmailExists()">
+            {{ isEmailExistsError() }}
         </app-alert>
     </ng-container>
 </div>

@@ -11,6 +11,7 @@ import { AppConfig } from 'src/app/app.config';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { InputComponent } from 'src/app/components/input/input.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { EmailExistsValidator } from '../../validators/email';
 
 @Component({
   selector: 'app-register',
@@ -26,10 +27,11 @@ export class RegisterComponent implements OnInit {
   // firebase registeration error
   error: string | null = null;
 
-  email: FormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
+  email: FormControl = new FormControl(
+    '',
+    [Validators.required, Validators.email],
+    [this.emailExistsValidator.validate]
+  );
   password: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(this.passwordMinLength),
@@ -44,7 +46,10 @@ export class RegisterComponent implements OnInit {
     username: this.username,
   });
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private emailExistsValidator: EmailExistsValidator
+  ) {}
 
   isFormInvalid() {
     return !this.registerForm.valid;

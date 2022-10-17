@@ -39,12 +39,20 @@ export class InputComponent implements OnInit {
     return `${this.name} must be at least ${this.minLength} characters`;
   }
 
-  isEmail() {
+  isEmailInvalid() {
     return this.field.hasError('email');
   }
 
-  isEmailError() {
-    return `${this.name} must be a valid email address`;
+  isEmailInvalidError() {
+    return `${this.field.value} is not a valid email address`;
+  }
+
+  isEmailExists() {
+    return this.field.hasError('emailExists');
+  }
+
+  isEmailExistsError() {
+    return `Email ${this.field.value} already exists`;
   }
 
   constructor() {}

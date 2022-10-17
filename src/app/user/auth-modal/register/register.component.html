@@ -11,7 +11,6 @@
         <button class="btn btn-accent w-full" [disabled]="isFormInvalid()" [class.disabled]="isFormInvalid()"
             [class.loading]="loading">{{ loading ? "Submitting ..." :
             "Submit"}}</button>
-
         <!-- firebase create user error -->
         <app-alert *ngIf="error">
             {{ error }}

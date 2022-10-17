@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   GithubAuthProvider,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  updateProfile,
   signInWithEmailAndPassword,
+  updateProfile,
 } from '@angular/fire/auth';
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { signInWithPopup, User } from '@firebase/auth';
@@ -76,6 +77,10 @@ export class AuthService {
     }
 
     await this.createUser(user);
+  }
+
+  async fetchSignInMethodForEmail(email: string) {
+    return await fetchSignInMethodsForEmail(this.auth, email);
   }
 
   async logout() {
