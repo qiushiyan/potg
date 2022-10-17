@@ -7,13 +7,12 @@
     </app-link>
     <div class="links ml-auto">
 
-        <app-link (click)="toggleAuthModal()" *ngIf="authService.currentUser === null">
+        <app-link (click)="toggleAuthModal()" *ngIf="user === null">
             Login
         </app-link>
 
-        <app-link *ngIf="authService.currentUser" href="/me">
-            {{ authService.currentUser.displayName ? authService.currentUser.displayName :
-            authService.currentUser.email }}
+        <app-link *ngIf="user !== null" href="/me">
+            {{ user.displayName ? user.displayName : user.email }}
         </app-link>
 
         <app-link [class.ml-5]="true" href="/">

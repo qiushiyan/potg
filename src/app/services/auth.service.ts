@@ -7,14 +7,10 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { signInWithPopup, User } from '@firebase/auth';
-import {
-  addDoc,
-  collection,
-  CollectionReference,
-  DocumentData,
-} from '@firebase/firestore';
+import { collection, CollectionReference } from '@firebase/firestore';
+import { Subject } from 'rxjs';
 import { IUser } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
@@ -23,12 +19,14 @@ export class AuthService {
   githubProvider = new GithubAuthProvider();
   googleProvider = new GoogleAuthProvider();
 
-  currentUser: User | null = null;
+  currentUser: IUser | null = null;
+  currentUser$ = new Subject<IUser | null>();
   userCollectionRef: CollectionReference<IUser>;
 
   constructor(private auth: Auth, private store: Firestore) {
     this.auth.onAuthStateChanged((user) => {
-      this.currentUser = user;
+      this.currentUser$.next(user as IUser);
+      this.currentUser = user as IUser;
     });
 
     this.userCollectionRef = collection(
@@ -37,16 +35,34 @@ export class AuthService {
     ) as CollectionReference<IUser>;
   }
 
-  async login(password: string, email: string) {
+  async createUser(user: User) {
+    // create user document in firestore, different from firebase authentication user creation
+    const userDoc = doc(this.userCollectionRef, user.uid);
+    const snap = await getDoc(userDoc);
+    if (!snap.exists()) {
+      await setDoc(userDoc, {
+        email: user.email,
+        displayName: user.displayName === '' ? user.email : user.displayName,
+        photoURL: user.photoURL,
+      });
+    }
+  }
+
+  async signIn(email: string, password: string) {
     await signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  loginWithGithub() {
-    signInWithPopup(this.auth, this.githubProvider);
+  async signInWithGithub() {
+    await this.signInWithProvider(this.githubProvider);
   }
 
-  loginWithGoogle() {
-    signInWithPopup(this.auth, this.googleProvider);
+  async signInWithGoogle() {
+    await this.signInWithProvider(this.googleProvider);
+  }
+
+  async signInWithProvider(provider: GithubAuthProvider | GoogleAuthProvider) {
+    const { user } = await signInWithPopup(this.auth, provider);
+    await this.createUser(user);
   }
 
   async register(email: string, password: string, username: string) {
@@ -58,12 +74,8 @@ export class AuthService {
     if (username !== '') {
       await updateProfile(user, { displayName: username });
     }
-    await addDoc<IUser>(this.userCollectionRef, {
-      uid: user.uid,
-      email: user.email!,
-      displayName: user.displayName === '' ? user.email! : user.displayName!,
-    });
-    return user;
+
+    await this.createUser(user);
   }
 
   async logout() {

@@ -1,9 +1,9 @@
-<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+<form (ngSubmit)=" signInWithEmailAndPassword()" #loginForm="ngForm">
 
     <!-- social providers -->
     <div class="my-5 flex justify-around">
-        <button class="btn btn-outline btn-accent" (click)="loginWithGithub()">Login with github</button>
-        <button class="btn btn-outline btn-accent" (click)="loginWithGoogle()">Login with Google</button>
+        <button class="btn btn-outline btn-accent" (click)="signInWithGithub()">Login with github</button>
+        <button class="btn btn-outline btn-accent" (click)="signInWithGoogle()">Login with Google</button>
     </div>
 
     <div class="divider">Or login via email</div>
@@ -25,8 +25,8 @@
     <!-- password -->
     <div class="mb-3">
         <label class="label">Password</label>
-        <input #password="ngModel" type="text" name="password" [(ngModel)]="credentials.password" placeholder="Password"
-            class="input input-bordered w-full" required minlength="6" />
+        <input #password="ngModel" type="text" name="password" type="password" [(ngModel)]="credentials.password"
+            placeholder="Password" class="input input-bordered w-full" required minlength="6" />
         <div *ngIf="password.invalid && (password.dirty || password.touched)">
             <app-alert *ngIf="password.errors?.['minlength']">
                 {{ fieldMinLengthError('password', passwordMinLength) }}

@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="form-control w-full">
         <!-- email -->
         <app-input [field]="email" name="Email" [required]="true" type="email"></app-input>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalService } from 'src/app/services/modal.service';
 
@@ -14,7 +14,7 @@ interface IModal {
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
   @Input() title!: string;
   @Input() id!: string;
 
@@ -22,6 +22,10 @@ export class ModalComponent implements OnInit {
 
   ngOnInit(): void {
     document.body.appendChild(this.el.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    document.body.removeChild(this.el.nativeElement);
   }
 
   isModalVisible(id: string) {

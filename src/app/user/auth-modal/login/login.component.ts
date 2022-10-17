@@ -26,43 +26,57 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  loginWithGithub() {
-    this.authService.loginWithGithub();
+  signInWithEmailAndPassword() {
+    this.signIn(() =>
+      this.authService.signIn(this.credentials.email, this.credentials.password)
+    );
   }
 
-  loginWithGoogle() {
-    this.authService.loginWithGoogle();
+  signInWithGoogle() {
+    this.signIn(() => this.authService.signInWithGoogle());
   }
 
-  async onSubmit() {
+  signInWithGithub() {
+    this.signIn(() => this.authService.signInWithGithub());
+  }
+
+  async signIn(cb: () => Promise<void>) {
     this.loading = true;
     this.error = null;
     try {
-      await this.authService.login(
-        this.credentials.email,
-        this.credentials.password
-      );
+      await cb();
     } catch (error: any) {
+      console.log(error);
       if (error instanceof FirebaseError) {
-        if (error.code === 'auth/wrong-password') {
-          this.credentials.password = '';
-          this.error = this.wrongPasswordError();
-        } else if (error.code === 'auth/user-not-found') {
-          this.credentials.email = '';
-          this.credentials.password = '';
-          this.error = this.userNotFoundError(this.credentials.email);
-        } else if (error.code === 'auth/user-disabled') {
-          this.error = this.userDisabledError();
-        } else if (error.code === 'auth/invalid-email') {
-          this.credentials.email = '';
-          this.error = this.invalidEmailError(this.credentials.email);
-        }
+        this.catchFirebaseLoginError(error);
       } else {
         this.error = error.message;
       }
     }
 
     this.loading = false;
+  }
+
+  catchFirebaseLoginError(error: FirebaseError) {
+    switch (error.code) {
+      case 'auth/invalid-email':
+        this.error = this.invalidEmailError(this.credentials.email);
+        break;
+      case 'auth/wrong-password':
+        this.error = this.wrongPasswordError();
+        break;
+      case 'auth/user-not-found':
+        this.error = this.userNotFoundError(this.credentials.email);
+        break;
+      case 'auth/user-disabled':
+        this.error = this.userDisabledError();
+        break;
+      case 'auth/account-exists-with-different-credential':
+        this.error = this.accountExistsError(this.credentials.email);
+        break;
+      default:
+        this.error = this.internalError();
+    }
   }
 
   fieldRequiredError(field: string) {
@@ -75,6 +89,10 @@ export class LoginComponent implements OnInit {
 
   invalidEmailError(email: string) {
     return `Email ${email} is not valid`;
+  }
+
+  accountExistsError(email: string) {
+    return `Email ${email} exists under a different provider, please use that provider to sign in`;
   }
 
   wrongPasswordError() {

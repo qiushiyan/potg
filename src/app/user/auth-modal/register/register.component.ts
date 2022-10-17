@@ -11,6 +11,7 @@ import { InputComponent } from 'src/app/components/input/input.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { FirebaseError } from '@angular/fire/app';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-register',
@@ -50,7 +51,7 @@ export class RegisterComponent implements OnInit {
     return !this.registerForm.valid;
   }
 
-  async onSubmit() {
+  async register() {
     this.loading = true;
     this.error = null;
     const { email, password, username } = this.registerForm.value;
