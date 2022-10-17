@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   Component,
@@ -6,7 +7,6 @@ import {
   OnInit,
   QueryList,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({

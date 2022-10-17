@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalService } from 'src/app/services/modal.service';
+import { Component, OnInit } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
-import { LinkComponent } from '../link/link.component';
-import { AuthService } from 'src/app/services/auth.service';
 import { IUser } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { LinkComponent } from '../link/link.component';
 
 @Component({
   selector: 'app-header',

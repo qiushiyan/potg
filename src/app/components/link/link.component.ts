@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @Component({

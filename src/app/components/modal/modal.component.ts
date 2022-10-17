@@ -1,11 +1,6 @@
-import { Component, Input, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalService } from 'src/app/services/modal.service';
-
-interface IModal {
-  id: string;
-  visible: boolean;
-}
 
 @Component({
   selector: 'app-modal',

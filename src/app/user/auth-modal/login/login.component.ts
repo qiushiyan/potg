@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AlertComponent } from 'src/app/components/alert/alert.component';
-import { AppConfig } from 'src/app/app.config';
-import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseError } from '@angular/fire/app';
+import { FormsModule } from '@angular/forms';
+import { AppConfig } from 'src/app/app.config';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',

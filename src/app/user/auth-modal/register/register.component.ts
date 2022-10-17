@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FirebaseError } from '@angular/fire/app';
 import {
   FormControl,
   FormGroup,
@@ -7,11 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { AppConfig } from 'src/app/app.config';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { InputComponent } from 'src/app/components/input/input.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { AlertComponent } from 'src/app/components/alert/alert.component';
-import { FirebaseError } from '@angular/fire/app';
-import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-register',
