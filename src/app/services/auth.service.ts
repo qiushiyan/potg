@@ -9,6 +9,7 @@ import {
   updateProfile,
 } from '@angular/fire/auth';
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { signInWithPopup, User } from '@firebase/auth';
 import { collection, CollectionReference } from '@firebase/firestore';
 import { Subject } from 'rxjs';
@@ -24,7 +25,11 @@ export class AuthService {
   currentUser$ = new Subject<IUser | null>();
   userCollectionRef: CollectionReference<IUser>;
 
-  constructor(private auth: Auth, private store: Firestore) {
+  constructor(
+    private auth: Auth,
+    private store: Firestore,
+    private router: Router
+  ) {
     this.auth.onAuthStateChanged((user) => {
       this.currentUser$.next(user as IUser);
       this.currentUser = user as IUser;
@@ -85,5 +90,6 @@ export class AuthService {
 
   async logout() {
     await this.auth.signOut();
+    this.router.navigateByUrl('/');
   }
 }

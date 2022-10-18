@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
-import { VideoUploadComponent } from './upload/upload.component';
-import { VideosComponent } from './videos/videos.component';
+import { AuthGuard } from '../auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: VideosComponent,
+    loadComponent: () =>
+      import('./videos/videos.component').then((m) => m.VideosComponent),
   },
   {
     path: 'new',
-    component: VideoUploadComponent,
+    loadComponent: () =>
+      import('./upload/upload.component').then((m) => m.VideoUploadComponent),
+    canActivate: [AuthGuard],
   },
 ];
