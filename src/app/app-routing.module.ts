@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
       ),
     data: { title: 'Profile' },
   },
+  {
+    path: 'videos',
+    loadChildren: () => import('./video/routes').then((m) => m.routes),
+  },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

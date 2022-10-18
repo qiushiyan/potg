@@ -5,7 +5,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 @Component({
   selector: 'app-link',
   standalone: true,
-  imports: [CommonModule, AppRoutingModule],
+  imports: [AppRoutingModule, CommonModule],
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
 })

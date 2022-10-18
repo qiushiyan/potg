@@ -5,6 +5,9 @@
             POTG
         </h1>
     </app-link>
+    <app-link href="/videos" class="ml-5">
+        Videos
+    </app-link>
     <div class="links ml-auto">
 
         <app-link (click)="toggleAuthModal()" *ngIf="user === null">
@@ -15,7 +18,7 @@
             {{ user.displayName ? user.displayName : user.email }}
         </app-link>
 
-        <app-link [class.ml-5]="true" href="/">
+        <app-link [class.ml-5]="true" href="/about">
             About
         </app-link>
     </div>
