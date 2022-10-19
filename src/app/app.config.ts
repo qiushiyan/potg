@@ -1,6 +1,9 @@
 export class AppConfig {
   public static modalIds = {
-    USER_AUTH_MODAL: 'user-auth-modal',
+    USER_AUTH_MODAL: {
+      id: 'user-auth-modal',
+      title: 'Your account',
+    },
   };
   public static validator = {
     password: {

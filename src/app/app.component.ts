@@ -15,11 +15,12 @@ export class AppComponent {
     private modalService: ModalService
   ) {
     this.authService.currentUser$.subscribe((user) => {
+      // hide auth modal if user is logged in
       if (
         user &&
-        this.modalService.isModalVisible(AppConfig.modalIds.USER_AUTH_MODAL)
+        this.modalService.isModalVisible(AppConfig.modalIds.USER_AUTH_MODAL.id)
       ) {
-        this.modalService.toggleModal(AppConfig.modalIds.USER_AUTH_MODAL);
+        this.modalService.toggleModal(AppConfig.modalIds.USER_AUTH_MODAL.id);
       }
     });
   }

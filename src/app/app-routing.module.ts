@@ -10,10 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'me',
-    loadComponent: () =>
-      import('./user/profile/profile.component').then(
-        (m) => m.ProfileComponent
-      ),
+    loadChildren: () => import('./user/routes').then((m) => m.routes),
   },
   {
     path: 'videos',

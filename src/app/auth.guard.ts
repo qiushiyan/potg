@@ -15,7 +15,7 @@ import { ModalService } from './services/modal.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  modalId = AppConfig.modalIds.USER_AUTH_MODAL;
+  modalId = AppConfig.modalIds.USER_AUTH_MODAL.id;
 
   constructor(
     private authService: AuthService,
@@ -36,11 +36,10 @@ export class AuthGuard implements CanActivate {
         return true;
       } else {
         this.router.navigate(['/']);
-        this.modalService.toggleModal(this.modalId);
         return false;
       }
     });
 
-    return of(true);
+    return of(false);
   }
 }

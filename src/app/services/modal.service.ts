@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 interface IModal {
   id: string;
   visible: boolean;
+  title?: string;
 }
 
 @Injectable({
@@ -13,8 +14,8 @@ export class ModalService {
 
   constructor() {}
 
-  register(id: string) {
-    this.modals.set(id, { id, visible: false });
+  register(id: string, title?: string) {
+    this.modals.set(id, { id, visible: false, title: title });
   }
 
   deregister(id: string) {
@@ -25,10 +26,17 @@ export class ModalService {
     return Boolean(this.modals.get(id)?.visible);
   }
 
-  toggleModal(id: string): void {
+  getModalTitle(id: string): string {
+    return this.modals.get(id)?.title || '';
+  }
+
+  toggleModal(id: string, title?: string): void {
     if (this.modals.has(id)) {
       const modal = this.modals.get(id)!;
       modal.visible = !modal.visible;
+      if (title) {
+        modal.title = title;
+      }
     }
   }
 }

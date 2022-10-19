@@ -23,11 +23,13 @@ import { RegisterComponent } from './register/register.component';
   styleUrls: ['./auth-modal.component.scss'],
 })
 export class AuthModalComponent implements OnInit, OnDestroy {
-  modalId: string = AppConfig.modalIds.USER_AUTH_MODAL;
+  modalId: string = AppConfig.modalIds.USER_AUTH_MODAL.id;
+  modalTitle: string = AppConfig.modalIds.USER_AUTH_MODAL.title;
+
   constructor(private modalService: ModalService) {}
 
   ngOnInit(): void {
-    this.modalService.register(this.modalId);
+    this.modalService.register(this.modalId, this.modalTitle);
   }
 
   ngOnDestroy(): void {
