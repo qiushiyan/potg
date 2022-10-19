@@ -13,4 +13,9 @@ export const routes: Routes = [
       import('./upload/upload.component').then((m) => m.VideoUploadComponent),
     canActivate: [AuthGuard],
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./video/video.component').then((m) => m.VideoComponent),
+  },
 ];

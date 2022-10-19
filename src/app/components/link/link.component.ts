@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { AppRoutingModule } from 'src/app/app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-link',
   standalone: true,
-  imports: [AppRoutingModule, CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
 })

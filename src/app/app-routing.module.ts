@@ -10,11 +10,26 @@ const routes: Routes = [
   },
   {
     path: 'me',
-    loadChildren: () => import('./user/routes').then((m) => m.routes),
+    loadComponent: () =>
+      import('./user/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
   },
   {
     path: 'videos',
     loadChildren: () => import('./video/routes').then((m) => m.routes),
+  },
+  {
+    path: 'video',
+    redirectTo: 'videos',
+  },
+  {
+    path: 'clips',
+    redirectTo: 'videos',
+  },
+  {
+    path: 'upload',
+    redirectTo: 'videos/new',
   },
   { path: '**', component: NotFoundComponent },
 ];
