@@ -6,12 +6,19 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
+  User,
 } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import {
+  collection,
+  CollectionReference,
+  doc,
+  Firestore,
+  getDoc,
+  setDoc,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { signInWithPopup, User } from '@firebase/auth';
-import { collection, CollectionReference } from '@firebase/firestore';
 import { Subject } from 'rxjs';
 import { IUser } from '../models/user.model';
 @Injectable({

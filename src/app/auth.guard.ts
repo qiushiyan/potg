@@ -6,10 +6,10 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { AppConfig } from './app.config';
 import { AuthService } from './services/auth.service';
-import { ModalService } from './services/modal.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private modalService: ModalService
+    private toastr: ToastrService
   ) {}
 
   canActivate(
@@ -36,6 +36,7 @@ export class AuthGuard implements CanActivate {
         return true;
       } else {
         this.router.navigate(['/']);
+        this.toastr.success('Hello world!', 'Toastr fun!');
         return false;
       }
     });

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "potg-41ef6": {
+      "hosting": {
+        "potg": [
+          "potg"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "potg-41ef6"
+  }
+}
