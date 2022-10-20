@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ContainerComponent } from 'src/app/components/container/container.component';
 import { LinkComponent } from 'src/app/components/link/link.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, LinkComponent],
+  imports: [CommonModule, LinkComponent, ContainerComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })

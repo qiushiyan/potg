@@ -2,7 +2,7 @@
     <app-heading>Upload new video</app-heading>
     <!-- drag and drop area, hidden after a video is uploaded  -->
     <div app-event-blocker *ngIf="!formVisible; else uploadForm" (drop)="uploadFile($event)"
-        class="flex justify-center items-center w-full">
+        class="flex justify-center items-center w-full cursor-pointer">
         <label for="dropzone-file"
             class="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-dashed cursor-pointerhover:bg-bray-800 bg-gray-700  border-gray-600 hover:border-accent hover:bg-gray-600">
             <div class="flex flex-col justify-center items-center pt-5 pb-6">
@@ -23,11 +23,26 @@
 
     <!-- form to select thumbnail, title and description -->
     <ng-template #uploadForm>
-        <form [formGroup]="uploadVideoForm" (ngSubmit)="storeFile()">
+        <form [formGroup]="uploadVideoForm" (ngSubmit)="onSubmit()">
             <app-input [field]="title" name="Title" [required]="true" type="text" extClass="input-info">
             </app-input>
+
+            <!-- description -->
             <label class="label">Description</label>
-            <textarea class="textarea textarea-info w-full" placeholder="A description of your awesome play"></textarea>
+            <textarea class="textarea textarea-info w-full" [formControl]="description"
+                placeholder="A description of your awesome play"></textarea>
+
+            <!-- video upload progress -->
+            <app-progress [percentage]="videoUploadPercent"></app-progress>
+
+            <!-- submit button -->
+            <div class="flex mt-5">
+                <button class="btn btn-accent" [disabled]="videoUploading || formUploading"
+                    [class.disabled]="videoUploading || formUploading"
+                    [class.loading]="videoUploading || formUploading">
+                    {{submitButtonText}}
+                </button>
+            </div>
         </form>
     </ng-template>
 </div>

@@ -30,13 +30,13 @@ export class VideosComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private modalService: ModalService
-  ) {
-    this.authService.currentUser$.subscribe((user) => (this.user = user));
-  }
+  ) {}
 
   toggleAuthModal() {
     this.modalService.toggleModal(this.modalId);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => (this.user = user));
+  }
 }
