@@ -18,6 +18,9 @@ export class InputComponent implements OnInit {
   @Input() required: boolean = true; // if the field is required
   @Input() minLength: number = 0; // if the field has a mininum length
   @Input() ariaLabel: string = '';
+  @Input() extClass: string = '';
+
+  inputClass: string = '';
 
   isChanged() {
     return this.field.touched && this.field.dirty;
@@ -58,6 +61,7 @@ export class InputComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.inputClass = `input input-bordered w-full ${this.extClass}`;
     if (this.placeholder === '') {
       this.placeholder = this.name;
     }

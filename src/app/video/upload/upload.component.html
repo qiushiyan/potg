@@ -1,6 +1,8 @@
 <div class="max-w-6xl m-auto mt-5">
     <app-heading>Upload new video</app-heading>
-    <div class="flex justify-center items-center w-full" app-event-blocker>
+    <!-- drag and drop area, hidden after a video is uploaded  -->
+    <div app-event-blocker *ngIf="!formVisible; else uploadForm" (drop)="uploadFile($event)"
+        class="flex justify-center items-center w-full">
         <label for="dropzone-file"
             class="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 border-dashed cursor-pointerhover:bg-bray-800 bg-gray-700  border-gray-600 hover:border-accent hover:bg-gray-600">
             <div class="flex flex-col justify-center items-center pt-5 pb-6">
@@ -17,4 +19,15 @@
             <input id="dropzone-file" type="file" class="hidden" />
         </label>
     </div>
+
+
+    <!-- form to select thumbnail, title and description -->
+    <ng-template #uploadForm>
+        <form [formGroup]="uploadVideoForm" (ngSubmit)="storeFile()">
+            <app-input [field]="title" name="Title" [required]="true" type="text" extClass="input-info">
+            </app-input>
+            <label class="label">Description</label>
+            <textarea class="textarea textarea-info w-full" placeholder="A description of your awesome play"></textarea>
+        </form>
+    </ng-template>
 </div>

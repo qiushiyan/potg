@@ -25,6 +25,7 @@
     "ngx-toastr": "^15.2.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "uuid": "^9.0.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -41,7 +42,8 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.1.8",
-    "typescript": "~4.7.2"
+    "typescript": "~4.7.2",
+    "@types/uuid": "^8.3.4"
   },
   "pnpm": {
     "overrides": {

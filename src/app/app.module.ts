@@ -10,6 +10,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -28,6 +29,7 @@ import { AuthModalComponent } from './user/auth-modal/auth-modal.component';
     NotFoundComponent,
     AuthModalComponent,
     HeaderComponent,
+    FooterComponent,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],

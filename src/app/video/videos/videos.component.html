@@ -1,2 +1,23 @@
-<app-video-upload></app-video-upload>
-<app-video-list></app-video-list>
+<app-container>
+    <app-video-upload *ngIf="user; else loginInfo"></app-video-upload>
+    <ng-template #loginInfo>
+        <div *ngIf="!user" class="alert bg-inherit">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    class="stroke-info flex-shrink-0 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <h3 class="font-bold text-xl" (click)="toggleAuthModal()">
+                        <a class="link-accent text-xl hover:underline">
+                            Login
+                        </a> to upload videos
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <app-video-list></app-video-list>
+</app-container>
