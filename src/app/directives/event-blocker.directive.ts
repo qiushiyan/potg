@@ -10,7 +10,7 @@ export class EventBlockerDirective {
   @HostListener('drop', ['$event'])
   @HostListener('dragover', ['$event'])
   public handeEvent(event: Event) {
-    event.preventDefault();
     event.stopPropagation();
+    event.preventDefault();
   }
 }

@@ -21,6 +21,6 @@ export class VideoService {
   }
 
   async createVideo(data: IVideo) {
-    await addDoc(this.collectionRef, data);
+    return await addDoc(this.collectionRef, data);
   }
 }
