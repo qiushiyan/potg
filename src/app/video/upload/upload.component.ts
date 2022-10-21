@@ -71,14 +71,7 @@ export class VideoUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.videoUploadSuccessful.subscribe((success) => {
-      this.videoUploading = false;
-      this.formUploading = false;
-      this.videoUploadPercent = 0;
-      this.submitButtonText = 'Publish';
-      this.formVisible = false;
-      this.videoUploadPercent = 0;
-      this.submitButtonText = 'Publish';
-      this.file = null;
+      this.resetAll();
       if (success) {
         this.toastrService.success('Video uploaded successfully');
       } else {
@@ -88,6 +81,15 @@ export class VideoUploadComponent implements OnInit {
       }
       this.videoUploadError = null;
     });
+  }
+
+  resetAll() {
+    this.videoUploading = false;
+    this.formUploading = false;
+    this.submitButtonText = 'Publish';
+    this.formVisible = false;
+    this.videoUploadPercent = 0;
+    this.file = null;
   }
 
   catchFirebaseStorageError(error: FirebaseError) {
