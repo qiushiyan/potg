@@ -28,7 +28,7 @@ export class VideosComponent implements OnInit {
   user: IUser | null = null;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private modalService: ModalService
   ) {}
 

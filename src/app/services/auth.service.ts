@@ -31,7 +31,7 @@ export class AuthService {
 
   currentUser: IUser | null = null;
   currentUser$ = new Subject<IUser | null>();
-  userCollectionRef: CollectionReference<IUser>;
+  userCollectionRef: CollectionReference<Omit<IUser, 'uid'>>;
 
   constructor(
     private auth: Auth,

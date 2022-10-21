@@ -1,5 +1,5 @@
 <app-container>
-    <app-video-upload *ngIf="user; else loginInfo"></app-video-upload>
+    <app-video-upload *ngIf="authService.currentUser; else loginInfo"></app-video-upload>
     <ng-template #loginInfo>
         <div *ngIf="!user" class="alert bg-inherit">
             <div>
