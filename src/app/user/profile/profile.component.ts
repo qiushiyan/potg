@@ -36,8 +36,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user) => {
-      this.photoURL = user?.photoURL || '';
-      this.videoService.getUserVideos(user?.uid!);
+      this.videoService.getUserVideos(user);
     });
 
     this.activatedRoute.queryParams.subscribe((params) => {

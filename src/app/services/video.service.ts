@@ -13,6 +13,7 @@ import {
   startAfter,
   where,
 } from '@angular/fire/firestore';
+import { IUser } from '../models/user.model';
 import { IVideo, Video } from '../models/video.model';
 
 @Injectable({
@@ -71,16 +72,18 @@ export class VideoService {
     this.pendingReq = false;
   }
 
-  async getUserVideos(uid: string) {
-    const q = query(this.collectionRef, where('uid', '==', uid));
-    const snapshot = await getDocs(q);
-    this.userVideos = snapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-
-    return this.userVideos;
+  async getUserVideos(user: IUser | null) {
+    if (!user) {
+      this.userVideos = [];
+    } else {
+      const q = query(this.collectionRef, where('uid', '==', user.uid));
+      const snapshot = await getDocs(q);
+      this.userVideos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+    }
   }
 }
