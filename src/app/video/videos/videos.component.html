@@ -1,7 +1,7 @@
 <app-container>
     <app-video-upload *ngIf="authService.currentUser; else loginInfo"></app-video-upload>
     <ng-template #loginInfo>
-        <div *ngIf="!user" class="alert bg-inherit">
+        <div *ngIf="!authService.currentUser" class="alert bg-inherit">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     class="stroke-info flex-shrink-0 w-6 h-6">

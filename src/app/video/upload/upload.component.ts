@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
-import { DocumentReference } from '@angular/fire/firestore';
+import { DocumentReference, serverTimestamp } from '@angular/fire/firestore';
 import {
   getDownloadURL,
   UploadTask,
@@ -68,10 +68,15 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
   });
   // description is optional
   description = new FormControl('');
+  // default to public
+  public = new FormControl(true, {
+    nonNullable: true,
+  });
 
   uploadForm = new FormGroup({
     title: this.title,
     description: this.description,
+    public: this.public,
   });
 
   constructor(
@@ -180,9 +185,12 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
 
         const video: IVideo = {
           uid: this.authSerivce.currentUser!.uid,
+          displayName: this.authSerivce.currentUser!.displayName,
           title: this.title.value,
+          public: this.public.value,
           url: url,
-          timestamp: Date.now(),
+          watches: 0,
+          timestamp: serverTimestamp(),
         };
 
         if (this.description.value) {

@@ -1,0 +1,21 @@
+<!-- Edit Modal -->
+<app-modal [id]="modalId">
+    <p class="text-2xl font-bold" heading>Edit Video</p>
+    <!-- Form -->
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <!-- Title -->
+        <app-input [field]="title" name="title" placeholder="Title"></app-input>
+        <!-- Description -->
+        <app-input [field]="description" name="description" placeholder="Description"></app-input>
+        <!-- Public -->
+        <label class="label mt-5">if this video is public to all</label>
+        <input type="checkbox" class="toggle toggle-accent" [formControl]="public" checked />
+
+        <div class="mt-4 text-right">
+            <button [disabled]="inSubmission" [class.disabled]="inSubmission" [class.loading]="inSubmission"
+                class="btn btn-accent">
+                Update
+            </button>
+        </div>
+    </form>
+</app-modal>

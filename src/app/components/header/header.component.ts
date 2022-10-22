@@ -14,7 +14,7 @@ import { LinkComponent } from '../link/link.component';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  modalId: string = AppConfig.modalIds.USER_AUTH_MODAL.id;
+  modalId: string = AppConfig.modals.USER_AUTH_MODAL.id;
   user: IUser | null = null;
 
   constructor(

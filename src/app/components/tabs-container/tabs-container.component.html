@@ -1,6 +1,6 @@
 <!-- tabs -->
 <div class="tabs mb-3">
-    <a *ngFor="for let tab of tabs" class="tab tab-bordered transition block flex-1 text-white text-lg"
+    <a *ngFor="let tab of tabs" class="tab tab-bordered transition block flex-1 text-white text-lg"
         [class.tab-active]="tab.active" (click)="switchTab(tab)">
         {{tab.title}}
     </a>

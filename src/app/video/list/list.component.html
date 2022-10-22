@@ -1,1 +1,5 @@
-<p>list works!</p>
+<div class="container mx-auto my-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <app-video-card *ngFor="let video of videoService.pageVideos" [video]="video"></app-video-card>
+    </div>
+</div>

@@ -13,20 +13,16 @@ const routes: Routes = [
     loadChildren: () => import('./user/routes').then((m) => m.routes),
   },
   {
-    path: 'videos',
+    path: 'clips',
     loadChildren: () => import('./video/routes').then((m) => m.routes),
   },
   {
-    path: 'video',
-    redirectTo: 'videos',
-  },
-  {
-    path: 'clips',
-    redirectTo: 'videos',
+    path: 'videos',
+    redirectTo: 'clips',
   },
   {
     path: 'upload',
-    redirectTo: 'videos/new',
+    redirectTo: 'clips/new',
   },
   { path: '**', component: NotFoundComponent },
 ];

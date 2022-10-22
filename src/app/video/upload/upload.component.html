@@ -35,6 +35,11 @@
             <textarea class="textarea textarea-info w-full" [formControl]="description"
                 placeholder="A description of your awesome play"></textarea>
 
+            <!-- public -->
+            <label class="label mt-5">if this video is public to all</label>
+            <input type="checkbox" class="toggle toggle-accent" [formControl]="public" checked />
+
+
             <!-- video upload progress
             <app-progress [percentage]="videoUploadPercent"></app-progress>
             -->

@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
     try {
       await cb();
     } catch (error: any) {
-      console.log(error);
       if (error instanceof FirebaseError) {
         this.catchFirebaseLoginError(error);
       } else {

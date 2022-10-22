@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { AppConfig } from 'src/app/app.config';
 import { ContainerComponent } from 'src/app/components/container/container.component';
 import { LinkComponent } from 'src/app/components/link/link.component';
-import { IUser } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { VideoListComponent } from '../list/list.component';
@@ -24,8 +23,7 @@ import { VideoUploadComponent } from '../upload/upload.component';
   styleUrls: ['./videos.component.scss'],
 })
 export class VideosComponent implements OnInit {
-  modalId: string = AppConfig.modalIds.USER_AUTH_MODAL.id;
-  user: IUser | null = null;
+  modalId: string = AppConfig.modals.USER_AUTH_MODAL.id;
 
   constructor(
     public authService: AuthService,
@@ -36,7 +34,5 @@ export class VideosComponent implements OnInit {
     this.modalService.toggleModal(this.modalId);
   }
 
-  ngOnInit(): void {
-    this.authService.currentUser$.subscribe((user) => (this.user = user));
-  }
+  ngOnInit(): void {}
 }

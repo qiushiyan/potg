@@ -15,7 +15,7 @@ import { AuthService } from './services/auth.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  modalId = AppConfig.modalIds.USER_AUTH_MODAL.id;
+  modalId = AppConfig.modals.USER_AUTH_MODAL.id;
 
   constructor(
     private authService: AuthService,

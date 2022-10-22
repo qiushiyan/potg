@@ -6,7 +6,7 @@
     </div>
 
     <div class="rounded relative flex justify-between">
-        <app-link href="/videos/new">Upload new video</app-link>
+        <app-link href="/clips/new">Upload new video</app-link>
 
         <!-- Sort Videos -->
         <select class="select select-accent w-full max-w-xs" (change)="sort($event)">
@@ -17,4 +17,8 @@
     </div>
 
     <button class="btn btn-outline btn-accent" (click)="logout()">Logout</button>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <p *ngFor="let video of videoService.userVideos">{{video.title}} </p>
+    </div>
+
 </app-container>
