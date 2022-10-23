@@ -8,6 +8,10 @@ export class AppConfig {
       id: 'video-edit-modal',
       title: 'Edit clip',
     },
+    VIDEO_DELETE_MODAL: {
+      id: 'video-delete-modal',
+      title: 'Confirm deleting this clip',
+    },
   };
   public static validator = {
     password: {

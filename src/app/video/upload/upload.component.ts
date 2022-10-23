@@ -166,7 +166,8 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
     }
     this.videoUploading = true;
     this.submitButtonText = 'Uploading video ...';
-    this.videoUploadTask = this.storageSerivce.upload(this.file);
+    const { task, fileName } = this.storageSerivce.upload(this.file);
+    this.videoUploadTask = task;
     this.videoUploadTask.on('state_changed', {
       next: (snapshot: UploadTaskSnapshot) => {
         this.videoUploadPercent =
@@ -188,6 +189,7 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
           displayName: this.authSerivce.currentUser!.displayName,
           title: this.title.value,
           public: this.public.value,
+          fileName: fileName,
           url: url,
           watches: 0,
           timestamp: serverTimestamp(),

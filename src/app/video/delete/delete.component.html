@@ -1,0 +1,9 @@
+<app-modal [id]="modalId">
+    <app-alert *ngIf="error">
+        {{ error }}
+    </app-alert>
+    <div class="flex justify-end">
+        <button class="btn btn-accent" [class.disabled]="inSubmission" [disabled]="inSubmission"
+            (click)="deleteVideo($event)">{{ submitButtonText }}</button>
+    </div>
+</app-modal>

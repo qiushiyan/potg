@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { VideoService } from 'src/app/services/video.service';
 import { VideoCardComponent } from 'src/app/video/card/card.component';
+import { VideoDeleteComponent } from 'src/app/video/delete/delete.component';
 import { VideoEditComponent } from 'src/app/video/edit/edit.component';
 import { VideoListComponent } from 'src/app/video/list/list.component';
 
@@ -22,6 +23,7 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
     VideoEditComponent,
     VideoListComponent,
     VideoCardComponent,
+    VideoDeleteComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
@@ -63,7 +65,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.modalService.toggleModal(AppConfig.modals.VIDEO_EDIT_MODAL.id);
   }
 
+  toggleDeleteModal(event: Event, video: Video) {
+    event.preventDefault();
+    this.activeVideo = video;
+    this.modalService.toggleModal(AppConfig.modals.VIDEO_DELETE_MODAL.id);
+  }
+
   updateVideo(event: UpdateVideoEvent) {
+    this.videoService.getUserVideos(this.authService.currentUser);
+  }
+
+  deleteVideo() {
     this.videoService.getUserVideos(this.authService.currentUser);
   }
 

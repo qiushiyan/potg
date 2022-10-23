@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   CollectionReference,
+  deleteDoc,
   doc,
   Firestore,
   getDoc,
@@ -18,6 +19,7 @@ import { map, of, switchMap } from 'rxjs';
 import { IUser } from '../models/user.model';
 import { IVideo, UpdateVideo, Video } from '../models/video.model';
 import { AuthService } from './auth.service';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +33,11 @@ export class VideoService {
   // videos accumulator
   pageVideos: Video[] = [];
 
-  constructor(private firestore: Firestore, private authService: AuthService) {
+  constructor(
+    private firestore: Firestore,
+    private authService: AuthService,
+    private storageService: StorageService
+  ) {
     this.collectionRef = collection(
       this.firestore,
       'videos'
@@ -40,6 +46,11 @@ export class VideoService {
 
   async createVideo(data: IVideo) {
     return await addDoc(this.collectionRef, data);
+  }
+
+  async deleteVideo(data: Video) {
+    await this.storageService.delete(data.fileName);
+    await deleteDoc(doc(this.collectionRef, data.id));
   }
 
   async getVideos() {

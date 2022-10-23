@@ -4,7 +4,8 @@ export interface IVideo {
   uid: string;
   displayName: string;
   title: string;
-  url: string; // firebase storage url
+  fileName: string; // storage file name, used for deletion
+  url: string; // storage url
   timestamp: FieldValue;
   description?: string;
   public: boolean;
