@@ -11,5 +11,18 @@ export interface IVideo {
   watches: number;
 }
 
+export interface UpdateVideo {
+  title?: string;
+  description?: string;
+  public?: boolean;
+}
+
+export interface UpdateVideoEvent {
+  id: string;
+  title: string;
+  description: string;
+  public: boolean;
+}
+
 // video services injects id
 export type Video = IVideo & { id: string };

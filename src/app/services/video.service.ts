@@ -11,10 +11,13 @@ import {
   orderBy,
   query,
   startAfter,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
+import { map, of, switchMap } from 'rxjs';
 import { IUser } from '../models/user.model';
-import { IVideo, Video } from '../models/video.model';
+import { IVideo, UpdateVideo, Video } from '../models/video.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +31,7 @@ export class VideoService {
   // videos accumulator
   pageVideos: Video[] = [];
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private authService: AuthService) {
     this.collectionRef = collection(
       this.firestore,
       'videos'
@@ -72,6 +75,30 @@ export class VideoService {
     this.pendingReq = false;
   }
 
+  getUserClips() {
+    return this.authService.currentUser$.pipe(
+      switchMap((user) => {
+        if (!user) {
+          return of([]);
+        }
+        const q = query(this.collectionRef, where('uid', '==', user.uid));
+        return getDocs(q);
+      }),
+      map((snapshot) => {
+        if (snapshot instanceof Array) {
+          return [];
+        } else {
+          return snapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          });
+        }
+      })
+    );
+  }
+
   async getUserVideos(user: IUser | null) {
     if (!user) {
       this.userVideos = [];
@@ -85,5 +112,11 @@ export class VideoService {
         };
       });
     }
+
+    return this.userVideos;
+  }
+
+  async updateVideo(id: string, data: UpdateVideo) {
+    return await updateDoc(doc(this.collectionRef, id), data);
   }
 }

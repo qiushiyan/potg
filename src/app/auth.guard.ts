@@ -37,7 +37,9 @@ export class AuthGuard implements CanActivate {
       } else {
         const url = this.router.url;
         this.router.navigate(['/']);
-        this.toastr.info(`You need to be logged in to access ${url}`);
+        if (this.toastr.toasts.length === 0) {
+          this.toastr.info(`You need to be logged in to access ${url}`);
+        }
         return false;
       }
     });
