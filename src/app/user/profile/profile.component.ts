@@ -40,9 +40,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     public videoService: VideoService,
     private modalService: ModalService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.authService.currentUser$.subscribe((user) => {
       this.videoService.getUserVideos(user);
     });
@@ -51,6 +49,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.videosOrder = params['sort'] || 'desc';
     });
   }
+
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {}
 

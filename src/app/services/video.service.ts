@@ -8,6 +8,7 @@ import {
   Firestore,
   getDoc,
   getDocs,
+  increment,
   limit,
   orderBy,
   query,
@@ -129,5 +130,10 @@ export class VideoService {
 
   async updateVideo(id: string, data: UpdateVideo) {
     return await updateDoc(doc(this.collectionRef, id), data);
+  }
+
+  async incrementWatches(id: string) {
+    const incr = increment(1);
+    return await updateDoc(doc(this.collectionRef, id), { watches: incr });
   }
 }
