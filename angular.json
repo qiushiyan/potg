@@ -32,7 +32,12 @@
                 "glob": "*"
               }
             ],
-            "styles": ["src/styles.scss", "node_modules/ngx-toastr/toastr.css"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/video.js/dist/video-js.css",
+              "node_modules/@videojs/themes/dist/fantasy/index.css"
+            ],
             "scripts": []
           },
           "configurations": {
