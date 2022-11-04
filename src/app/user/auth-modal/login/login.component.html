@@ -9,7 +9,7 @@
     <div class="divider">Or login via email</div>
     <!-- email -->
     <div class="mb-3">
-        <label class="label">Email</label>
+        <label class="label text-xl">Email</label>
         <input #email="ngModel" type="text" name="email" [(ngModel)]="credentials.email" placeholder="Email"
             class="input input-bordered w-full" required
             pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
@@ -24,7 +24,7 @@
     </div>
     <!-- password -->
     <div class="mb-3">
-        <label class="label">Password</label>
+        <label class="label text-xl">Password</label>
         <input #password="ngModel" type="text" name="password" type="password" [(ngModel)]="credentials.password"
             placeholder="Password" class="input input-bordered w-full" required minlength="6" />
         <div *ngIf="password.invalid && (password.dirty || password.touched)">

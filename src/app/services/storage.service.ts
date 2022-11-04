@@ -3,9 +3,9 @@ import {
   deleteObject,
   ref,
   Storage,
+  uploadBytes,
   uploadBytesResumable,
 } from '@angular/fire/storage';
-import { v4 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -13,17 +13,23 @@ import { v4 as uuid } from 'uuid';
 export class StorageService {
   constructor(private storage: Storage) {}
 
-  upload(file: File) {
-    const fileName = uuid();
-    const path = `videos/${fileName}.mp4`;
-    const obj = ref(this.storage, path);
-    const task = uploadBytesResumable(obj, file);
-
-    return { task, fileName };
+  uploadVideo(file: File, fileName: string) {
+    const videoFilename = `videos/${fileName}.mp4`;
+    const videoRef = ref(this.storage, videoFilename);
+    const videoTask = uploadBytesResumable(videoRef, file);
+    return { videoFilename, videoTask, videoRef };
   }
 
-  async delete(id: string) {
-    const obj = ref(this.storage, `videos/${id}.mp4`);
+  // use async version of uploadBytes, need to await on this before uploadVideo
+  async uploadScreenshot(screenshot: Blob, fileName: string) {
+    const screenshotFilename = `screenshots/${fileName}.png`;
+    const screenshotRef = ref(this.storage, screenshotFilename);
+    await uploadBytes(screenshotRef, screenshot);
+    return { screenshotFilename, screenshotRef };
+  }
+
+  async delete(path: string) {
+    const obj = ref(this.storage, path);
     await deleteObject(obj);
   }
 }

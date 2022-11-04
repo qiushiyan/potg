@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./user/routes').then((m) => m.routes),
   },
   {
+    path: 'about',
+    loadComponent: () =>
+      import('./about/about.component').then((m) => m.AboutComponent),
+  },
+  {
     path: 'clips',
     loadChildren: () => import('./video/routes').then((m) => m.routes),
   },

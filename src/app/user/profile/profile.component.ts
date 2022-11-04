@@ -31,7 +31,6 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
 export class ProfileComponent implements OnInit, OnDestroy {
   photoURL: string = '';
   videosOrder: string = 'desc'; // 1: desc, 2: asc
-  userVideos: Video[] = [];
   activeVideo: Video | null = null;
 
   constructor(

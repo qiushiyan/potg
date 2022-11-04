@@ -4,6 +4,7 @@ import { FirebaseError } from '@angular/fire/app';
 import { DocumentReference, serverTimestamp } from '@angular/fire/firestore';
 import {
   getDownloadURL,
+  StorageReference,
   UploadTask,
   UploadTaskSnapshot,
 } from '@angular/fire/storage';
@@ -16,14 +17,19 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+import { AppConfig } from 'src/app/app.config';
+import { ContainerComponent } from 'src/app/components/container/container.component';
 import { HeadingComponent } from 'src/app/components/heading/heading.component';
 import { InputComponent } from 'src/app/components/input/input.component';
-import { ProgressComponent } from 'src/app/components/progress/progress.component';
 import { EventBlockerDirective } from 'src/app/directives/event-blocker.directive';
 import { IVideo } from 'src/app/models/video.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { FFmpegService } from 'src/app/services/ffmpeg.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { VideoService } from 'src/app/services/video.service';
+import { v4 as uuid } from 'uuid';
+import { SafeUrlPipe } from '../safe-url.pipe';
 
 @Component({
   selector: 'app-video-upload',
@@ -34,8 +40,9 @@ import { VideoService } from 'src/app/services/video.service';
     EventBlockerDirective,
     ReactiveFormsModule,
     InputComponent,
-    ProgressComponent,
     RouterModule,
+    SafeUrlPipe,
+    ContainerComponent,
   ],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
@@ -61,6 +68,13 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
 
   // video in firestore
   video: DocumentReference<IVideo> | null = null;
+  videoRef: StorageReference | null = null;
+
+  // ffmpeg state
+  screenshots: string[] = [];
+  screenshotRef: StorageReference | null = null;
+  screenshotFilename: string | null = null;
+  selectedScreenshot: string | null = null;
 
   title = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
@@ -80,12 +94,16 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private authSerivce: AuthService,
     private toastrService: ToastrService,
     private storageSerivce: StorageService,
     private videoService: VideoService,
+    public authService: AuthService,
+    public ffmpegService: FFmpegService,
+    private modalService: ModalService,
     private router: Router
-  ) {}
+  ) {
+    this.ffmpegService.init();
+  }
 
   ngOnInit(): void {
     this.videoUploadSuccessful.subscribe((success) => {
@@ -118,6 +136,10 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
     this.file = null;
   }
 
+  toggleAuthModal() {
+    this.modalService.toggleModal(AppConfig.modals.USER_AUTH_MODAL.id);
+  }
+
   catchFirebaseStorageError(error: FirebaseError) {
     switch (error.code) {
       case 'storage/unauthorized':
@@ -131,12 +153,22 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
     }
   }
 
-  uploadFile(event: DragEvent) {
-    const file = event.dataTransfer?.files.item(0);
+  async uploadFile(event: DragEvent | Event) {
+    let file;
+    if (event instanceof DragEvent) {
+      // file created through drag and drop
+      file = event.dataTransfer?.files.item(0);
+    } else {
+      // file created through file input
+      const input = event.target as HTMLInputElement;
+      file = input.files?.item(0);
+    }
 
     if (!file || file.type !== 'video/mp4') {
       this.toastrService.info('file must be non-empty and in mp4 format');
     } else {
+      this.screenshots = await this.ffmpegService.getScreenshots(file);
+      this.selectedScreenshot = this.screenshots[0];
       this.file = file;
       this.formVisible = true;
       // set title to file name (without extension)
@@ -144,20 +176,11 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
     }
   }
 
-  uploadFileClick(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.item(0);
-    if (!file || file.type !== 'video/mp4') {
-      this.toastrService.info('file must be non-empty and in mp4 format');
-    } else {
-      this.file = file;
-      this.formVisible = true;
-      // set title to file name (without extension)
-      this.title.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
-    }
+  selectScreenshot(screenshot: string) {
+    this.selectedScreenshot = screenshot;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.uploadForm.disable();
     if (!this.file) {
       this.toastrService.info('Please upload a mp4 file first');
@@ -166,8 +189,30 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
     }
     this.videoUploading = true;
     this.submitButtonText = 'Uploading video ...';
-    const { task, fileName } = this.storageSerivce.upload(this.file);
-    this.videoUploadTask = task;
+
+    const screenshotBlob = await this.ffmpegService.blobFromURL(
+      this.selectedScreenshot!
+    );
+    const fileName = uuid();
+
+    try {
+      const { screenshotRef, screenshotFilename } =
+        await this.storageSerivce.uploadScreenshot(screenshotBlob, fileName);
+      this.screenshotRef = screenshotRef;
+      this.screenshotFilename = screenshotFilename;
+    } catch {
+      this.toastrService.error(
+        'Failed to upload screenshot, please try again later'
+      );
+      this.resetAll();
+      return;
+    }
+
+    const { videoFilename, videoTask, videoRef } =
+      this.storageSerivce.uploadVideo(this.file, fileName);
+    this.videoUploadTask = videoTask;
+    this.videoRef = videoRef;
+
     this.videoUploadTask.on('state_changed', {
       next: (snapshot: UploadTaskSnapshot) => {
         this.videoUploadPercent =
@@ -182,15 +227,18 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
         this.submitButtonText = 'Uploading metadata ...';
         this.videoUploadError = null;
 
-        const url = await getDownloadURL(this.videoUploadTask!.snapshot.ref);
+        const videoUrl = await getDownloadURL(this.videoRef!);
+        const screenshotUrl = await getDownloadURL(this.screenshotRef!);
 
         const video: IVideo = {
-          uid: this.authSerivce.currentUser!.uid,
-          displayName: this.authSerivce.currentUser!.displayName,
+          uid: this.authService.currentUser!.uid,
+          displayName: this.authService.currentUser!.displayName,
           title: this.title.value,
           public: this.public.value,
-          fileName: fileName,
-          url: url,
+          videoUrl: videoUrl,
+          videoFilename: videoFilename,
+          screenshotUrl: screenshotUrl,
+          screenshotFilename: this.screenshotFilename!,
           watches: 0,
           timestamp: serverTimestamp(),
         };
@@ -201,6 +249,9 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
 
         try {
           this.video = await this.videoService.createVideo(video);
+          this.screenshots.forEach((screenshot) => {
+            URL.revokeObjectURL(screenshot);
+          });
           this.toastrService.success('Video uploaded successfully');
           this.videoUploadSuccessful.next(true);
         } catch (error) {

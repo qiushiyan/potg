@@ -47,6 +47,7 @@ export class VideoDeleteComponent implements OnInit, OnDestroy {
 
   catchDeleteError(err: any) {
     if (err instanceof FirebaseError) {
+      console.log(err);
       switch (err.code) {
         case 'storage/object-not-found':
           this.error =

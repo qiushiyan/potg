@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'new',
     loadComponent: () =>
-      import('./upload/upload.component').then((m) => m.VideoUploadComponent),
+      import('./new/new.component').then((m) => m.NewComponent),
     canActivate: [AuthGuard],
   },
   {

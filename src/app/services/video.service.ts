@@ -50,7 +50,8 @@ export class VideoService {
   }
 
   async deleteVideo(data: Video) {
-    await this.storageService.delete(data.fileName);
+    await this.storageService.delete(data.videoFilename);
+    await this.storageService.delete(data.screenshotFilename);
     await deleteDoc(doc(this.collectionRef, data.id));
   }
 
@@ -67,12 +68,18 @@ export class VideoService {
       const lastVideo = await getDoc(doc(this.collectionRef, lastId));
       q = query(
         this.collectionRef,
+        where('public', '==', true),
         orderBy('timestamp', 'desc'),
         limit(12),
         startAfter(lastVideo)
       );
     } else {
-      q = query(this.collectionRef, orderBy('timestamp', 'desc'), limit(12));
+      q = query(
+        this.collectionRef,
+        where('public', '==', true),
+        orderBy('timestamp', 'desc'),
+        limit(12)
+      );
     }
 
     const snapshot = await getDocs(q);
@@ -83,7 +90,6 @@ export class VideoService {
         ...doc.data(),
       });
     });
-
     this.pendingReq = false;
   }
 

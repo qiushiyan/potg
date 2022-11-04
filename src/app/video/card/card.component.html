@@ -1,8 +1,6 @@
-<div class="w-96 cursor-pointer" [routerLink]="video.id">
+<div class="w-96 cursor-pointer" [routerLink]="['/clips', video.id]">
     <div class="h-48 w-full ">
-        <img class="rounded-tl-2xl w-full"
-            src="https://i.ytimg.com/vi/l7TxwBhtTUY/hq720_live.jpg?sqp=CNjfsYAG-oaymwEZCNAFEJQDSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAmVNjMQzuOHHknmocydqjEQyedCg"
-            alt="" />
+        <img crossorigin="anonymous" class="rounded-tl-2xl w-full" [src]="video.screenshotUrl" alt="" />
     </div>
     <div class="mt-10 flex items-start space-x-2">
         <div class="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-white">

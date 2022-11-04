@@ -4,10 +4,12 @@ export interface IVideo {
   uid: string;
   displayName: string;
   title: string;
-  fileName: string; // storage file name, used for deletion
-  url: string; // storage url
   timestamp: FieldValue;
+  videoUrl: string; // storage url
+  videoFilename: string; // storage file name, used for deletion
   description?: string;
+  screenshotUrl: string;
+  screenshotFilename: string;
   public: boolean;
   watches: number;
 }

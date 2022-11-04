@@ -7,20 +7,24 @@
 
     <div class="rounded relative flex justify-between">
         <app-link href="/clips/new">Upload new video</app-link>
-
         <!-- Sort Videos -->
-        <select class="select select-accent w-full max-w-xs" (change)="sort($event)">
-            <option disabled selected>Order</option>
-            <option value="desc" [selected]="videosOrder === 'desc'">Latest to Oldest</option>
-            <option value="asc" [selected]="videosOrder === 'asc'">Oldest to Latest</option>
-        </select>
+
     </div>
 
     <button class="btn btn-outline btn-accent" (click)="logout()">Logout</button>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="divider"></div>
+
+    <select class="select select-accent w-full max-w-xs" (change)="sort($event)">
+        <option disabled selected>Order</option>
+        <option value="desc" [selected]="videosOrder === 'desc'">Latest to Oldest</option>
+        <option value="asc" [selected]="videosOrder === 'asc'">Oldest to Latest</option>
+    </select>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
         <div class="card w-96 bg-base-100 shadow-xl" *ngFor="let video of videoService.userVideos">
             <div class="relative">
-                <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+                <figure><img crossorigin="anonymous" [src]="video.screenshotUrl"
+                        [alt]="video.description || 'description'" /></figure>
                 <div class="absolute top-1 right-1">
                     <div class="badge badge-outline">{{ video.public ? "Public" : "Private"}}</div>
                 </div>
