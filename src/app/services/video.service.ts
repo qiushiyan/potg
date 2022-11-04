@@ -70,7 +70,7 @@ export class VideoService {
         this.collectionRef,
         where('public', '==', true),
         orderBy('timestamp', 'desc'),
-        limit(12),
+        limit(6),
         startAfter(lastVideo)
       );
     } else {
@@ -78,7 +78,7 @@ export class VideoService {
         this.collectionRef,
         where('public', '==', true),
         orderBy('timestamp', 'desc'),
-        limit(12)
+        limit(6)
       );
     }
 
