@@ -29,7 +29,7 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  photoURL: string = '';
+  photoURL: string | null = null;
   videosOrder: string = 'desc'; // 1: desc, 2: asc
   activeVideo: Video | null = null;
 

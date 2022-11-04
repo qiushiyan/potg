@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
   catchFirebaseLoginError(error: FirebaseError) {
+    console.log(error);
     switch (error.code) {
       case 'auth/invalid-email':
         this.error = this.invalidEmailError(this.credentials.email);

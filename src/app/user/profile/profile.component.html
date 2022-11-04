@@ -1,19 +1,19 @@
 <app-container>
     <div class="avatar online placeholder">
         <div class="bg-neutral-focus text-neutral-content rounded-full w-16">
-            <img [src]="this.authService.currentUser?.photoURL" />
+            <img crossorigin="anonymous" [src]="this.authService.currentUser?.photoURL" />
         </div>
     </div>
 
-    <div class="rounded relative flex justify-between">
+    <div class="rounded relative flex justify-between items-center">
         <app-link href="/clips/new">Upload new video</app-link>
-        <!-- Sort Videos -->
-
+        <button class="btn btn-outline btn-accent" (click)="logout()">Logout</button>
     </div>
 
-    <button class="btn btn-outline btn-accent" (click)="logout()">Logout</button>
+
     <div class="divider"></div>
 
+    <!-- Sort Videos -->
     <select class="select select-accent w-full max-w-xs" (change)="sort($event)">
         <option disabled selected>Order</option>
         <option value="desc" [selected]="videosOrder === 'desc'">Latest to Oldest</option>

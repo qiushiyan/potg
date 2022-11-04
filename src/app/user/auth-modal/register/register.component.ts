@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
     Validators.minLength(this.passwordMinLength),
   ]);
   username: FormControl = new FormControl('', [
+    Validators.required,
     Validators.minLength(this.usernameMinLength),
   ]);
 

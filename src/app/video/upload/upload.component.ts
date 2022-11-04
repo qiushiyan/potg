@@ -231,8 +231,6 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
         const screenshotUrl = await getDownloadURL(this.screenshotRef!);
 
         const video: IVideo = {
-          uid: this.authService.currentUser!.uid,
-          displayName: this.authService.currentUser!.displayName,
           title: this.title.value,
           public: this.public.value,
           videoUrl: videoUrl,
@@ -241,6 +239,11 @@ export class VideoUploadComponent implements OnInit, OnDestroy {
           screenshotFilename: this.screenshotFilename!,
           watches: 0,
           timestamp: serverTimestamp(),
+          user: {
+            uid: this.authService.currentUser!.uid,
+            displayName: this.authService.currentUser!.displayName,
+            photoURL: this.authService.currentUser!.photoURL,
+          },
         };
 
         if (this.description.value) {

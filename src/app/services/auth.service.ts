@@ -8,7 +8,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
-  User,
 } from '@angular/fire/auth';
 import {
   collection,
@@ -21,6 +20,7 @@ import {
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { IUser } from '../models/user.model';
+import { AvatarService } from './avatar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +36,7 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private store: Firestore,
+    private avatarService: AvatarService,
     private router: Router
   ) {
     this.auth.onAuthStateChanged((user) => {
@@ -49,14 +50,14 @@ export class AuthService {
     ) as CollectionReference<IUser>;
   }
 
-  async createUser(user: User) {
-    // create user document in firestore, different from firebase authentication user creation
+  // create user document in firestore
+  async createUser(user: IUser) {
     const userDoc = doc(this.userCollectionRef, user.uid);
     const snap = await getDoc(userDoc);
     if (!snap.exists()) {
       await setDoc(userDoc, {
         email: user.email,
-        displayName: user.displayName === '' ? user.email : user.displayName,
+        displayName: user.displayName,
         photoURL: user.photoURL,
       });
     }
@@ -76,20 +77,35 @@ export class AuthService {
 
   async signInWithProvider(provider: GithubAuthProvider | GoogleAuthProvider) {
     const { user } = await signInWithPopup(this.auth, provider);
-    await this.createUser(user);
+    const displayName = user.displayName || user.email!;
+    const photoURL =
+      user.photoURL || this.avatarService.getAvatarUrl(displayName);
+    await this.createUser({
+      email: user.email!,
+      displayName,
+      photoURL: photoURL,
+      uid: user.uid,
+    });
   }
 
-  async register(email: string, password: string, username: string) {
+  async register(email: string, password: string, displayName: string) {
     const { user } = await createUserWithEmailAndPassword(
       this.auth,
       email,
       password
     );
-    if (username !== '') {
-      await updateProfile(user, { displayName: username });
-    }
+    const photoURL = this.avatarService.getAvatarUrl(displayName);
+    await updateProfile(user, {
+      displayName,
+      photoURL,
+    });
 
-    await this.createUser(user);
+    await this.createUser({
+      uid: user.uid,
+      email: user.email || '',
+      displayName,
+      photoURL: photoURL,
+    });
   }
 
   async fetchSignInMethodForEmail(email: string) {

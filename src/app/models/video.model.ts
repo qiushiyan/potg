@@ -1,8 +1,6 @@
 import { FieldValue } from '@angular/fire/firestore';
 
 export interface IVideo {
-  uid: string;
-  displayName: string;
   title: string;
   timestamp: FieldValue;
   videoUrl: string; // storage url
@@ -12,6 +10,11 @@ export interface IVideo {
   screenshotFilename: string;
   public: boolean;
   watches: number;
+  user: {
+    uid: string;
+    displayName: string;
+    photoURL: string;
+  };
 }
 
 export interface UpdateVideo {

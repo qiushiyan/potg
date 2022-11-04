@@ -99,7 +99,7 @@ export class VideoService {
         if (!user) {
           return of([]);
         }
-        const q = query(this.collectionRef, where('uid', '==', user.uid));
+        const q = query(this.collectionRef, where('user.uid', '==', user.uid));
         return getDocs(q);
       }),
       map((snapshot) => {
@@ -121,7 +121,7 @@ export class VideoService {
     if (!user) {
       this.userVideos = [];
     } else {
-      const q = query(this.collectionRef, where('uid', '==', user.uid));
+      const q = query(this.collectionRef, where('user.uid', '==', user.uid));
       const snapshot = await getDocs(q);
       this.userVideos = snapshot.docs.map((doc) => {
         return {
