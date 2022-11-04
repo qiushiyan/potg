@@ -1,3 +1,36 @@
 <app-container>
-    <p>video works with {{ id }} </p>
+    <div class="relative h-[25em] aspect-ratio">
+        <video controls #videoPlayer class="video-js vjs-theme-fantasy mx-auto" crossorigin>
+        </video>
+    </div>
+
+    <ng-container *ngIf="video">
+        <div class="mt-10 flex items-start space-x-2 gap-2">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full overflow-hidden bg-white">
+                <img [src]="video.user.photoURL" crossorigin="anonymous" alt="" />
+            </div>
+            <div class="flex flex-col text-md tracking-tighter leading-tight w-full">
+                <div class="text-accent overflow-ellipsis text-2xl">{{video.title}}</div>
+                <div class="mt-1 flex items-baseline space-x-1">
+                    <div class="text-gray-400 text-xl">{{ video.user.displayName }}</div>
+                    <div class="w-3 h-3 pt-0.5">
+                        <svg viewBox="0 0 24 24" class="text-gray-400" fill="currentColor">
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10 S17.52,2,12,2z M9.92,17.93l-4.95-4.95l2.05-2.05l2.9,2.9l7.35-7.35l2.05,2.05L9.92,17.93z">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="text-gray-400 flex justify-between items-center">
+                    <div>{{ video.watches }} views</div>
+                    <div>{{ video.timestamp | fbTimestamp }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="text-gray-400 text-xl mt-10">
+            {{ video.description }}
+        </div>
+    </ng-container>
 </app-container>

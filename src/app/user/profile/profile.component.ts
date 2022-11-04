@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AppConfig } from 'src/app/app.config';
 import { ContainerComponent } from 'src/app/components/container/container.component';
 import { LinkComponent } from 'src/app/components/link/link.component';
+import { IUser } from 'src/app/models/user.model';
 import { UpdateVideoEvent, Video } from 'src/app/models/video.model';
 import { FbTimestampPipe } from 'src/app/pipes/fb-timestamp.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -26,58 +27,51 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
     VideoCardComponent,
     VideoDeleteComponent,
     FbTimestampPipe,
+    RouterModule,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  user: IUser | null = null;
   photoURL: string | null = null;
-  videosOrder: string = 'desc'; // 1: desc, 2: asc
+  videosOrder: 'asc' | 'desc' = 'desc'; // 1: desc, 2: asc
   activeVideo: Video | null = null;
 
   constructor(
     public authService: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     public videoService: VideoService,
     private modalService: ModalService
-  ) {
-    this.authService.currentUser$.subscribe((user) => {
-      this.videoService.getUserVideos(user);
-    });
+  ) {}
 
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.videosOrder = params['sort'] || 'desc';
-    });
+  ngOnInit(): void {
+    this.videoService.getUserVideos();
   }
 
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
-
-  sort(event: Event) {
-    const { value } = event.target as HTMLSelectElement;
-    this.router.navigateByUrl(`/me?sort=${value}`);
+  ngOnDestroy(): void {
+    // this.videoService.userVideos = [];
   }
 
   toggleEditModal(event: Event, video: Video) {
     event.preventDefault();
+    event.stopPropagation();
     this.activeVideo = video;
     this.modalService.toggleModal(AppConfig.modals.VIDEO_EDIT_MODAL.id);
   }
 
   toggleDeleteModal(event: Event, video: Video) {
     event.preventDefault();
+    event.stopPropagation();
     this.activeVideo = video;
     this.modalService.toggleModal(AppConfig.modals.VIDEO_DELETE_MODAL.id);
   }
 
   updateVideo(event: UpdateVideoEvent) {
-    this.videoService.getUserVideos(this.authService.currentUser);
+    this.videoService.getUserVideos();
   }
 
   deleteVideo() {
-    this.videoService.getUserVideos(this.authService.currentUser);
+    this.videoService.getUserVideos();
   }
 
   logout() {

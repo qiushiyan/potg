@@ -11,17 +11,11 @@
     </div>
 
 
-    <div class="divider"></div>
-
-    <!-- Sort Videos -->
-    <select class="select select-accent w-full max-w-xs" (change)="sort($event)">
-        <option disabled selected>Order</option>
-        <option value="desc" [selected]="videosOrder === 'desc'">Latest to Oldest</option>
-        <option value="asc" [selected]="videosOrder === 'asc'">Oldest to Latest</option>
-    </select>
+    <div class="divider text-xl">My videos</div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
-        <div class="card w-96 bg-base-100 shadow-xl" *ngFor="let video of videoService.userVideos">
+        <div class="card w-96 bg-base-100 shadow-xl cursor-pointer" *ngFor="let video of videoService.userVideos"
+            [routerLink]="['/clips', video.id]">
             <div class="relative">
                 <figure><img crossorigin="anonymous" [src]="video.screenshotUrl"
                         [alt]="video.description || 'description'" /></figure>
