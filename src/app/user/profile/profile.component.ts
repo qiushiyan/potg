@@ -6,6 +6,7 @@ import { ContainerComponent } from 'src/app/components/container/container.compo
 import { LinkComponent } from 'src/app/components/link/link.component';
 import { IUser } from 'src/app/models/user.model';
 import { UpdateVideoEvent, Video } from 'src/app/models/video.model';
+import { ExcerptPipe } from 'src/app/pipes/excerpt.pipe';
 import { FbTimestampPipe } from 'src/app/pipes/fb-timestamp.pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalService } from 'src/app/services/modal.service';
@@ -28,6 +29,7 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
     VideoDeleteComponent,
     FbTimestampPipe,
     RouterModule,
+    ExcerptPipe,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],

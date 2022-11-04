@@ -1,4 +1,4 @@
-<div class="w-96 cursor-pointer" [routerLink]="['/clips', video.id]">
+<div [class]="['cursor-pointer', 'w-' + width]" [routerLink]="['/clips', video.id]">
     <div class="h-48 w-full ">
         <img crossorigin="anonymous" class="rounded-tl-2xl w-full" [src]="video.screenshotUrl" alt="" />
     </div>

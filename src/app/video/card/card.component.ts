@@ -15,6 +15,7 @@ import { ModalService } from 'src/app/services/modal.service';
 })
 export class VideoCardComponent implements OnInit {
   @Input() video!: Video;
+  @Input() width: number = 96;
 
   constructor(private modalService: ModalService) {}
 

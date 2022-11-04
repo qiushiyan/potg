@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../auth.guard';
+import { VideoService } from '../services/video.service';
 
 export const routes: Routes = [
   {
@@ -17,5 +18,8 @@ export const routes: Routes = [
     path: ':id',
     loadComponent: () =>
       import('./video/video.component').then((m) => m.VideoComponent),
+    resolve: {
+      video: VideoService,
+    },
   },
 ];

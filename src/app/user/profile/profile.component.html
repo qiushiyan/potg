@@ -18,7 +18,7 @@
             [routerLink]="['/clips', video.id]">
             <div class="relative">
                 <figure><img crossorigin="anonymous" [src]="video.screenshotUrl"
-                        [alt]="video.description || 'description'" /></figure>
+                        [alt]="(video.description || 'description')" /></figure>
                 <div class="absolute top-1 right-1">
                     <div class="badge badge-outline">{{ video.public ? "Public" : "Private"}}</div>
                 </div>
@@ -30,7 +30,7 @@
                     </h2>
                 </div>
                 <div class="card-body p-0">
-                    {{ video.description }}
+                    {{ video.description | excerpt }}
                 </div>
                 <div class="text-gray-400 flex justify-between items-center">
                     <div>{{ video.watches }} views</div>

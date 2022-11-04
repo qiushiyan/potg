@@ -16,6 +16,12 @@ import {
   updateDoc,
   where,
 } from '@angular/fire/firestore';
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { map, of, switchMap } from 'rxjs';
 import { IVideo, UpdateVideo, Video } from '../models/video.model';
 import { AuthService } from './auth.service';
@@ -24,7 +30,7 @@ import { StorageService } from './storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class VideoService {
+export class VideoService implements Resolve<IVideo | null> {
   collectionRef: CollectionReference<IVideo>;
 
   userVideos: Video[] = [];
@@ -36,7 +42,8 @@ export class VideoService {
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {
     this.collectionRef = collection(
       this.firestore,
@@ -46,6 +53,16 @@ export class VideoService {
 
   async createVideo(data: IVideo) {
     return await addDoc(this.collectionRef, data);
+  }
+
+  async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const video = await this.getVideo(route.params['id']);
+    if (!video) {
+      this.router.navigate(['/']);
+      return null;
+    }
+
+    return video;
   }
 
   async getVideo(id: string) {
@@ -67,7 +84,7 @@ export class VideoService {
     await deleteDoc(doc(this.collectionRef, data.id));
   }
 
-  async getVideos() {
+  async getVideos(exclude?: string) {
     if (this.pendingReq) {
       return;
     }
@@ -97,10 +114,17 @@ export class VideoService {
     const snapshot = await getDocs(q);
 
     snapshot.forEach((doc) => {
-      this.pageVideos.push({
+      const data = {
         id: doc.id,
         ...doc.data(),
-      });
+      };
+      if (!exclude) {
+        this.pageVideos.push(data);
+      } else {
+        if (data.id !== exclude) {
+          this.pageVideos.push(data);
+        }
+      }
     });
     this.pendingReq = false;
   }
