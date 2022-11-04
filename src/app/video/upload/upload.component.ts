@@ -29,7 +29,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { VideoService } from 'src/app/services/video.service';
 import { v4 as uuid } from 'uuid';
-import { SafeUrlPipe } from '../safe-url.pipe';
+import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-video-upload',

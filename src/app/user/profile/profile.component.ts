@@ -5,6 +5,7 @@ import { AppConfig } from 'src/app/app.config';
 import { ContainerComponent } from 'src/app/components/container/container.component';
 import { LinkComponent } from 'src/app/components/link/link.component';
 import { UpdateVideoEvent, Video } from 'src/app/models/video.model';
+import { FbTimestampPipe } from 'src/app/pipes/fb-timestamp.pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { VideoService } from 'src/app/services/video.service';
@@ -24,6 +25,7 @@ import { VideoListComponent } from 'src/app/video/list/list.component';
     VideoListComponent,
     VideoCardComponent,
     VideoDeleteComponent,
+    FbTimestampPipe,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
