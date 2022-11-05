@@ -48,6 +48,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.videoService.getUserVideos();
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.videoService.getUserVideos(user);
+      }
+    });
   }
 
   ngOnDestroy(): void {

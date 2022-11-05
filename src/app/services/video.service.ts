@@ -23,6 +23,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { map, of, switchMap } from 'rxjs';
+import { IUser } from '../models/user.model';
 import { IVideo, UpdateVideo, Video } from '../models/video.model';
 import { AuthService } from './auth.service';
 import { StorageService } from './storage.service';
@@ -153,27 +154,48 @@ export class VideoService implements Resolve<IVideo | null> {
     );
   }
 
-  async getUserVideos(order?: 'asc' | 'desc') {
-    this.authService.currentUser$.subscribe(async (user) => {
-      if (!user) {
-        this.userVideos = [];
-      } else {
-        const q = query(
-          this.collectionRef,
-          where('user.uid', '==', user.uid),
-          orderBy('timestamp', order || 'desc')
-        );
-        const snapshot = await getDocs(q);
-        this.userVideos = snapshot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data(),
-          };
-        });
-      }
+  async getUserVideos(user?: IUser, order?: 'asc' | 'desc') {
+    // this.authService.currentUser$.subscribe(async (user) => {
+    //   if (!user) {
+    //     this.userVideos = [];
+    //   } else {
+    //     const q = query(
+    //       this.collectionRef,
+    //       where('user.uid', '==', user.uid),
+    //       orderBy('timestamp', order || 'desc')
+    //     );
+    //     const snapshot = await getDocs(q);
+    //     this.userVideos = snapshot.docs.map((doc) => {
+    //       return {
+    //         id: doc.id,
+    //         ...doc.data(),
+    //       };
+    //     });
+    //   }
 
-      return this.userVideos;
-    });
+    //   return this.userVideos;
+    // });
+    if (!user) {
+      user = this.authService.currentUser || undefined;
+    }
+    if (user === undefined) {
+      this.userVideos = [];
+    } else {
+      const q = query(
+        this.collectionRef,
+        where('user.uid', '==', user.uid),
+        orderBy('timestamp', order || 'desc')
+      );
+      const snapshot = await getDocs(q);
+      this.userVideos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+    }
+
+    return this.userVideos;
   }
 
   async updateVideo(id: string, data: UpdateVideo) {

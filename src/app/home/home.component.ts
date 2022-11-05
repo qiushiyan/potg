@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../components/header/header.component';
 import { VideoService } from '../services/video.service';
@@ -20,12 +26,17 @@ import { VideoListComponent } from '../video/list/list.component';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('bgVideo', { static: true }) bgVideo?: ElementRef;
+
   constructor(private videoService: VideoService) {
     this.videoService.getVideos();
   }
 
   ngOnInit(): void {
     window.addEventListener('scroll', this.handleScroll);
+    // fix autoplay
+    // this.bgVideo?.nativeElement.click();
+    // this.bgVideo?.nativeElement.play();
   }
 
   ngOnDestroy(): void {
