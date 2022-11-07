@@ -14,8 +14,8 @@
     <div class="divider text-xl">My videos</div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
-        <div class="card w-96 bg-base-100 shadow-xl cursor-pointer" *ngFor="let video of videoService.userVideos"
-            [routerLink]="['/clips', video.id]">
+        <div class="card mx-auto w-96 bg-base-100 shadow-xl cursor-pointer"
+            *ngFor="let video of videoService.userVideos" [routerLink]="['/clips', video.id]">
             <div class="relative">
                 <figure><img crossorigin="anonymous" [src]="video.screenshotUrl"
                         [alt]="(video.description || 'description')" /></figure>

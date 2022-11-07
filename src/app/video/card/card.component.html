@@ -1,8 +1,9 @@
-<div [class]="['cursor-pointer', 'w-' + width]" [routerLink]="['/clips', video.id]">
-    <div class="h-48 w-full ">
+<div class="cursor-pointer flex flex-col mx-auto mb-5 justify-center w-3/4 md:w-96 md:block"
+    [routerLink]="['/clips', video.id]">
+    <div class="h-32 md:h-48 md:w-full ">
         <img crossorigin="anonymous" class="rounded-tl-2xl w-full" [src]="video.screenshotUrl" alt="" />
     </div>
-    <div class="mt-10 flex items-start space-x-2">
+    <div class="mt-20 md:mt-10 flex items-start space-x-2">
         <div class="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-white">
             <img [src]="video.user.photoURL" crossorigin="anonymous" alt="" />
         </div>
